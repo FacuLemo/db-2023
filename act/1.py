@@ -11,8 +11,8 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-sql_sentence = "INSERT INTO factura (cliente_id,numero_factura,metodo_pago_id,tipo_factura_id,precio) VALUES (%s,%s,%s,%s,%s)"
-values=(1,15,1,1,'10000')
+sql_sentence = "INSERT INTO factura (cliente_id,numero_factura,metodo_pago_id,tipo_factura_id,total,empleado_id) VALUES (%s,%s,%s,%s,%s)"
+values=(4,22,3,1,'0',1)
 
 mycursor.execute(sql_sentence,values)
 

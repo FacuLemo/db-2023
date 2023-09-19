@@ -1,3 +1,4 @@
+#script que inserte datos en fact_detalle
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -7,23 +8,23 @@ mydb = mysql.connector.connect(
     database="db_lemo",
 )
 
-sqlFactura= "SELECT MAX(id) FROM factura;"
+sqlFactura= "SELECT MAX(id) FROM factura;" #select factura
 mycursor = mydb.cursor()
 mycursor.execute(sqlFactura)
 
 id_factura= mycursor.fetchall()
 
-sqlProductos="SELECT id,precio FROM producto WHERE id=4"
+sqlProductos="SELECT id,precio FROM producto WHERE id=2" #select producto (s)
 mycursor.execute(sqlProductos)
 
 prods=mycursor.fetchall()
 
 values=list(prods[0])
 values.insert(0,id_factura[0][0])
-values.insert(2,3) #cantidad de producto vendido
+values.insert(2,1) #cantidad de producto vendido
 values=tuple(values)
 
-print(values)
+print(values) #(idFactura,idprod,cantprod, precioprod)
 
 sqlFactDetalle="INSERT INTO factura_detalle (factura_id,producto_id,cantidad,precio_venta) VALUES (%s,%s,%s,%s)"
 mycursor.execute(sqlFactDetalle,values)

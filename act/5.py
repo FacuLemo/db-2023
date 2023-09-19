@@ -1,4 +1,4 @@
-#conseguir el precio real de la factura sumando las (cant*precio) de los articulos
+#Actualizar el campo 'total' de la factura usando el script anterior.
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -15,11 +15,9 @@ mycursor.execute(sqlFactura)
 factura_id = mycursor.fetchall()
 factura_id = factura_id[0]
 
-
 sqlFactDetalle="SELECT cantidad, precio_venta FROM factura_detalle WHERE factura_id=%s"
 mycursor.execute(sqlFactDetalle,factura_id)
 prods=mycursor.fetchall()
-
 
 total=0
 for prod in prods:
@@ -27,6 +25,11 @@ for prod in prods:
     precioProd=precio*cant
     total+=precioProd
 
-mydb.commit()
+values=[total,factura_id[0]]
+values=tuple(values)
 
-print("el precio real es: ",total)
+sqlUpdate="UPDATE factura SET total = %s WHERE id = %s"
+mycursor.execute(sqlUpdate,values)
+
+mydb.commit()
+print(mycursor.rowcount, "registros actualizado")

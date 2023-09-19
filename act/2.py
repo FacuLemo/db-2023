@@ -1,4 +1,4 @@
-#ver primer o ultimo id de la table factur
+#ver id máximo (ultimo) de la table factura
 import mysql.connector
 
 mydb = mysql.connector.connect(
