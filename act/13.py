@@ -1,17 +1,19 @@
 #Una vista que muestre la menor venta del mes.
-"""
-SELECT MONTHNAME(factura.fecha) AS mes, MAX(factura.total) AS venta_minima,
 
-emp.nombre AS empleado_vendedor , cl.nombre AS cliente  FROM factura
+#SELECT MONTHNAME(fecha) AS mes, MAX(total) AS venta_maxima FROM factura WHERE anulado = 0 GROUP BY MONTH(fecha)
+import mysql.connector
 
-INNER JOIN cliente        ON factura.cliente_id = cliente.id 
+mydb = mysql.connector.connect(
+    host="143.198.156.171",
+    user="BD2021",
+    password="BD2021itec",
+    database="db_lemo",
+)
 
-INNER JOIN empleado       ON factura.empleado_id = empleado.id
+sql= "CREATE VIEW venta_minima_mensual AS SELECT MONTHNAME(fecha) AS mes, MIN(total) AS venta_minima FROM factura WHERE anulado = 0 GROUP BY MONTH(fecha)"
+mycursor = mydb.cursor()
+mycursor.execute(sql)
 
-INNER JOIN persona AS emp ON empleado.persona_id = emp.id
+result = mycursor.fetchall()
 
-INNER JOIN persona AS cl  ON cliente.persona_id = cl.id
-
-WHERE anulado = 0
-
-GROUP BY MONTH(factura.fecha)"""
+print('vista creada.')
